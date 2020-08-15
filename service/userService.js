@@ -1,8 +1,9 @@
 const userDa = require("../DataAccess/userDa");
+const jwt = require("../modules/jwt");
 const encryption = require("../modules/encryption");
 
 async function postUserLogIn(inputUser) {
-  const dbUser = userDa.selectUserByPnum(inputUser);
+  const dbUser = await userDa.selectUserByPnum(inputUser.pnumber);
 
   //아이디 없음
   if (dbUser.length <= 0) {
@@ -18,13 +19,18 @@ async function postUserLogIn(inputUser) {
     return -2;
   } else {
     //로그인 성공
-    return 0;
+    const token = jwt.sign(dbUser[0].pnumber);
+    return token;
   }
 }
 
 async function postUserSignUp(inputUser) {
   //데이터가 부족할 때
-
+  const { pnumber, password, name, jeja, isTheDream } = inputUser;
+  console.log(inputUser);
+  if (!pnumber || !password || !name || !jeja || isTheDream === null) {
+    return -1;
+  }
   //이미 존재할 때
   if (!(userDa.selectUserByPnum(inputUser.pnumber).length <= 0)) {
     return -2;

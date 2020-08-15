@@ -1,7 +1,6 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
-const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
 
@@ -9,8 +8,6 @@ const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const homeRouter = require("./routes/home");
 const mypageRouter = require("./routes/mypage");
-
-const { signedCookie } = require("cookie-parser");
 
 const app = express();
 
@@ -21,18 +18,6 @@ app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(
-  session({
-    key: "sid",
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);

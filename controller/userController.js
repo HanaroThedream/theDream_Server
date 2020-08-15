@@ -5,16 +5,16 @@ const statusCode = require("../modules/statusCode");
 
 async function postUserLogIn(req, res) {
   try {
-    const check = await userService.postUserLogIn(req.body);
+    const token = await userService.postUserLogIn(req.body);
 
-    if (check == -1) {
+    if (token == -1) {
       //해당 아이디 없음
       fail(res, statusCode.BAD_REQUEST, "존재하지 않는 회원입니다.");
-    } else if (check == -2) {
+    } else if (token == -2) {
       //비밀번호 틀림
       fail(res, statusCode.UNAUTHORIZED, "잘못된 비밀번호입니다.");
     } else {
-      success(res, statusCode.OK, "로그인 성공");
+      success(res, statusCode.OK, "로그인 성공", token);
     }
   } catch (error) {
     console.log(error);

@@ -1,5 +1,3 @@
-const { database } = require("../config/dbconfig");
-
 module.exports = {
   success: (res, status, message, data) => {
     res.status(status).json({

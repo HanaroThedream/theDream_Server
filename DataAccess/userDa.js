@@ -17,9 +17,16 @@ async function insertUser(userData) {
   return await mysql.query(insertQuery, values);
 }
 
-async function selectUserByPnum(userData) {
+async function selectUserByPnum(pnumber) {
   const selectQuery = `SELECT * FROM ${table} WHERE pnumber = ?;`;
-  const pnumber = [userData.pnumber];
+
+  return await mysql.query(selectQuery, [pnumber]);
+}
+
+async function selectUserProfile(userData) {
+  const fields = "name, jeja, image";
+  const pnumber = userData.pnumber;
+  const selectQuery = `SELECT ${fields} FROM ${table} WHERE pnumber = ?`;
 
   return await mysql.query(selectQuery, pnumber);
 }
@@ -27,4 +34,5 @@ async function selectUserByPnum(userData) {
 module.exports = {
   insertUser,
   selectUserByPnum,
+  selectUserProfile,
 };
