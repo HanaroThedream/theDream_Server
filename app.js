@@ -4,10 +4,11 @@ const path = require("path");
 const logger = require("morgan");
 const session = require("express-session");
 
-const indexRouter = require("./routes/index");
+//const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const homeRouter = require("./routes/home");
 const mypageRouter = require("./routes/mypage");
+const assignmentRouter = require("./routes/assignment");
 
 const app = express();
 
@@ -20,10 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+//app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/home", homeRouter);
 app.use("/mypage", mypageRouter);
+app.use("/assignment", assignmentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

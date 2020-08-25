@@ -4,4 +4,5 @@ module.exports = {
   password: "believe7",
   database: "TheDream",
   connectionLimit: 4,
+  dateStrings: "date",
 };

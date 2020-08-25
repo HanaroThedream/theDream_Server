@@ -19,6 +19,7 @@ async function query(...args) {
   await getPool();
 
   const connection = await pool.getConnection();
+
   const result = (await connection.query(query, data)) || null;
 
   connection.release();

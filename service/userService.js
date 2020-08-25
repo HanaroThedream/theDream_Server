@@ -27,12 +27,13 @@ async function postUserLogIn(inputUser) {
 async function postUserSignUp(inputUser) {
   //데이터가 부족할 때
   const { pnumber, password, name, jeja, isTheDream } = inputUser;
-  console.log(inputUser);
+
   if (!pnumber || !password || !name || !jeja || isTheDream === null) {
     return -1;
   }
   //이미 존재할 때
-  if (!(userDa.selectUserByPnum(inputUser.pnumber).length <= 0)) {
+  const result = await userDa.selectUserByPnum(inputUser.pnumber);
+  if (!(result.length <= 0)) {
     return -2;
   }
 

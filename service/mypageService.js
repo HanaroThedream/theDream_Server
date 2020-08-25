@@ -20,10 +20,17 @@ async function postCheckPassword(token, inputData) {
   }
 }
 
-async function getMypage() {}
+async function getMypage(token) {
+  const verified = jwt.verify(token);
+  const userProfile = await userDa.selectUserProfileByPnum(verified.pnumber);
 
-async function putMypage() {}
+  return userProfile[0];
+}
+
+async function putUpdateInfo() {}
+async function getMyWritten() {}
 
 module.exports = {
   postCheckPassword,
+  getMypage,
 };

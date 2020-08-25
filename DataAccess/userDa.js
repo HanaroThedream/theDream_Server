@@ -12,6 +12,7 @@ async function insertUser(userData) {
     userData.jeja,
     userData.isTheDream,
   ];
+
   const insertQuery = `INSERT INTO ${table} (${fields}) VALUES (?, ?, ?, ?, ?, ?);`;
 
   return await mysql.query(insertQuery, values);
@@ -23,16 +24,15 @@ async function selectUserByPnum(pnumber) {
   return await mysql.query(selectQuery, [pnumber]);
 }
 
-async function selectUserProfile(userData) {
+async function selectUserProfileByPnum(pnumber) {
   const fields = "name, jeja, image";
-  const pnumber = userData.pnumber;
   const selectQuery = `SELECT ${fields} FROM ${table} WHERE pnumber = ?`;
 
-  return await mysql.query(selectQuery, pnumber);
+  return await mysql.query(selectQuery, [pnumber]);
 }
 
 module.exports = {
   insertUser,
   selectUserByPnum,
-  selectUserProfile,
+  selectUserProfileByPnum,
 };
