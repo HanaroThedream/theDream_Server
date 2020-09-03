@@ -28,7 +28,7 @@ async function postUserSignUp(inputUser) {
   //데이터가 부족할 때
   const { pnumber, password, name, jeja, isTheDream } = inputUser;
 
-  if (!pnumber || !password || !name || !jeja || isTheDream === null) {
+  if (!pnumber || !password || !name || !jeja || !isTheDream) {
     return -1;
   }
   //이미 존재할 때

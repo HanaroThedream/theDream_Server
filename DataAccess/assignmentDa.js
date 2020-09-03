@@ -4,7 +4,7 @@ const table = "assignment";
 
 async function selectAssignmentHistory(pnumber) {
   const thisSunday = moment().add(-moment().day(), "day").format("YYYY-MM-DD");
-  const fiveWeekAgoSunday = moment()
+  const fiveWeeksAgoSunday = moment()
     .add(-moment().day(), "day")
     .add(-5, "week")
     .format("YYYY-MM-DD");
@@ -14,7 +14,7 @@ async function selectAssignmentHistory(pnumber) {
 
   return await mysql.query(selectQuery, [
     pnumber,
-    fiveWeekAgoSunday,
+    fiveWeeksAgoSunday,
     thisSunday,
   ]);
 }
@@ -71,8 +71,14 @@ async function insertAssignment(pnumber, asmDetails) {
   return await mysql.query(insertQuery, values);
 }
 
+async function selectRankOfJeja() {}
+
+async function selectPersonalRank() {}
+
 module.exports = {
   selectAssignmentDetails,
   selectAssignmentHistory,
   insertAssignment,
+  selectRankOfJeja,
+  selectPersonalRank,
 };

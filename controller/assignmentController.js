@@ -37,7 +37,19 @@ async function postSubmitAssignment(req, res) {
   }
 }
 
+async function getRank(req, res) {
+  try {
+    const result = assignmentService.getRank();
+
+    success(res, statusCode.OK, "랭크 불러오기 성공", result);
+  } catch (err) {
+    console.log(err);
+    fail(res, statusCode.INTERNAL_SERVER_ERROR, "서버 내부 에러");
+  }
+}
+
 module.exports = {
   getAssignment,
   postSubmitAssignment,
+  getRank,
 };

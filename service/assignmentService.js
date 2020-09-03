@@ -26,6 +26,16 @@ async function getAssignment(token) {
   };
 }
 
+async function getRank() {
+  const jejaRank = await assignmentDa.selectRankOfJeja();
+  const personalRank = await assignmentDa.selectPersonalRank();
+
+  return {
+    jejaRank,
+    personalRank,
+  };
+}
+
 async function postSubmitAssignment(token, asmDetails) {
   const verified = jwt.verify(token);
 
@@ -60,7 +70,36 @@ async function postSubmitAssignment(token, asmDetails) {
     myMinister,
   } = asmDetails;
 
-  if (!morWorship) {
+  if (
+    !morWorship ||
+    !afnWorship ||
+    !friWorship ||
+    !wedWorship ||
+    !dawnWorship ||
+    !duty ||
+    !scripture ||
+    !bible ||
+    !pray ||
+    !health ||
+    !noNightMeal ||
+    !grain ||
+    !ctrAmount ||
+    !chewing ||
+    !balancedDiet ||
+    !talking ||
+    !compliment ||
+    !laughing ||
+    !massage ||
+    !homepage ||
+    !bodyHeat ||
+    !mission ||
+    !praise ||
+    !amen ||
+    !noDrama ||
+    !greeting ||
+    !happiness ||
+    !myMinister
+  ) {
     //입력값 부족
     return -1;
   }
