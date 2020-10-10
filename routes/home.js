@@ -7,5 +7,6 @@ router.get("/", homeController.getHome);
 router.get("/oath", homeController.getOath);
 router.get("/scripture", homeController.getScriptures);
 router.post("/attendance", homeController.postAttendance);
+//router.get("youtubeWorship", homeController.getYoutubeWorship);
 
 module.exports = router;

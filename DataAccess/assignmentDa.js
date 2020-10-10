@@ -23,15 +23,20 @@ async function selectAssignmentHistory(pnumber) {
 }
 
 async function selectAssignmentDetails(pnumber) {
-  const selectQuery = `SELECT * FROM ${table} WHERE pnumber = ? AND date = ?`;
+  const selectQuery = `SELECT ${assignments} FROM ${table} WHERE pnumber = ? AND date = ?`;
 
   return await mysql.query(selectQuery, [pnumber, thisSunday]);
 }
 
+async function selectAssignmentPercentage(pnumber) {
+  const selectQuery = `SELECT percentage FROM ${table} WHERE pnumber = ? AND date = ?`;
+
+  return await mysql.query(selectQuery, [pnumber, thisSunday]);
+}
 async function insertAssignment(pnumber, asmDetails) {
   const fields = `${assignments}, percentage`;
 
-  const percentage = 0;
+  var percentage = 0;
   for (x in asmDetails) {
     if (asmDetails[x] == 2) {
       percentage++;
@@ -39,43 +44,7 @@ async function insertAssignment(pnumber, asmDetails) {
   }
   percentage = (percentage / Object.keys(asmDetails).length) * 100;
 
-  /*
-  const values = [
-    pnumber,
-    thisSunday,
-    asmDetails.morWorship,
-    asmDetails.afnWorship,
-    asmDetails.friWorship,
-    asmDetails.wedWorship,
-    asmDetails.dawnWorship,
-    asmDetails.duty,
-    asmDetails.scripture,
-    asmDetails.bible,
-    asmDetails.pray,
-    asmDetails.health,
-    asmDetails.noNightMeal,
-    asmDetails.grain,
-    asmDetails.ctrAmount,
-    asmDetails.chewing,
-    asmDetails.balancedDiet,
-    asmDetails.talking,
-    asmDetails.compliment,
-    asmDetails.laughing,
-    asmDetails.massage,
-    asmDetails.homepage,
-    asmDetails.bodyHeat,
-    asmDetails.mission,
-    asmDetails.praise,
-    asmDetails.amen,
-    asmDetails.noDrama,
-    asmDetails.greeting,
-    asmDetails.happiness,
-    asmDetails.myMinister,
-    percentage,
-  ];
-  */
-
-  const values = [pnumber, thisSunday];
+  var values = [pnumber, thisSunday];
   for (x in asmDetails) {
     values.push(asmDetails[x]);
   }
@@ -83,7 +52,7 @@ async function insertAssignment(pnumber, asmDetails) {
 
   //const insertQuery = `INSERT INTO ${table} (${fields}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   const insertQuery = `INSERT INTO ${table} (${fields}) VALUES (${"?,".repeat(
-    Object.keys(values) - 1
+    Object.keys(values).length - 1
   )} ?)`;
 
   return await mysql.query(insertQuery, values);
@@ -104,6 +73,7 @@ async function selectPersonalRank() {
 module.exports = {
   selectAssignmentDetails,
   selectAssignmentHistory,
+  selectAssignmentPercentage,
   insertAssignment,
   selectRankOfJeja,
   selectPersonalRank,

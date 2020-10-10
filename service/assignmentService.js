@@ -2,7 +2,7 @@ const userDa = require("../DataAccess/userDa");
 const assignmentDa = require("../DataAccess/assignmentDa");
 const jwt = require("../modules/jwt");
 const { verify } = require("../modules/jwt");
-const assignments = require("../modules/assignments");
+const { assignments } = require("../modules/assignments");
 
 async function getAssignment(token) {
   const verified = jwt.verify(token);
@@ -13,17 +13,23 @@ async function getAssignment(token) {
     return -1;
   }
 
-  const userInfo = dbUser[0];
+  //const userInfo = dbUser[0];
   const history = await assignmentDa.selectAssignmentHistory(verified.pnumber);
+  const percentage = await assignmentDa.selectAssignmentPercentage(
+    verified.pnumber
+  );
   const asmDetails = await assignmentDa.selectAssignmentDetails(
     verified.pnumber
   );
-  const thisWeek = asmDetails[0];
+
+  const asmPercentage = percentage[0];
+  const thisWeekAsm = asmDetails[0];
 
   return {
-    userInfo,
+    //userInfo,
     history,
-    thisWeek,
+    asmPercentage,
+    thisWeekAsm,
   };
 }
 
@@ -40,73 +46,7 @@ async function getRank() {
 async function postSubmitAssignment(token, asmDetails) {
   const verified = jwt.verify(token);
 
-  /*
-  const {
-    morWorship,
-    afnWorship,
-    friWorship,
-    wedWorship,
-    dawnWorship,
-    duty,
-    scripture,
-    bible,
-    pray,
-    health,
-    noNightMeal,
-    grain,
-    ctrAmount,
-    chewing,
-    balancedDiet,
-    talking,
-    compliment,
-    laughing,
-    massage,
-    homepage,
-    bodyHeat,
-    mission,
-    praise,
-    amen,
-    noDrama,
-    greeting,
-    happiness,
-    myMinister,
-  } = asmDetails;
-
-  if (
-    !morWorship ||
-    !afnWorship ||
-    !friWorship ||
-    !wedWorship ||
-    !dawnWorship ||
-    !duty ||
-    !scripture ||
-    !bible ||
-    !pray ||
-    !health ||
-    !noNightMeal ||
-    !grain ||
-    !ctrAmount ||
-    !chewing ||
-    !balancedDiet ||
-    !talking ||
-    !compliment ||
-    !laughing ||
-    !massage ||
-    !homepage ||
-    !bodyHeat ||
-    !mission ||
-    !praise ||
-    !amen ||
-    !noDrama ||
-    !greeting ||
-    !happiness ||
-    !myMinister
-  ) {
-    //입력값 부족
-    return -1;
-  }
-*/
-  if (Object.keys(asmDetails).length != Object.keys(assignments)) {
+  if (Object.keys(asmDetails).length != Object.keys(assignments).length) {
     //입력값 부족
     return -1;
   }

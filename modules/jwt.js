@@ -19,10 +19,10 @@ function verify(token) {
   try {
     return jwt.verify(token, jwtConfig.secretKey);
   } catch (error) {
-    if (err.message === "jwt expired") {
+    if (error.message === "jwt expired") {
       console.log("expired token");
       return -3;
-    } else if (err.message === "invalid token") {
+    } else if (error.message === "invalid token") {
       console.log("invalid token");
       return -2;
     }
